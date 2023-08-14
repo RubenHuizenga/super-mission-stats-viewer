@@ -7,6 +7,16 @@ import MissionDataContent from './MissionDataContent';
 import MissionDataHeader from './MissionDataHeader';
 import { MissionDataInterface, JSONError } from '../interfaces/MissionData';
 import Expandable from './Expandable';
+import AzureWeald from "../assets/biomes/Azure Weald.png";
+import CrystallineCaverns from "../assets/biomes/Crystalline Caverns.png";
+import DenseBiozone from "../assets/biomes/Dense Biozone.png";
+import FungusBogs from "../assets/biomes/Fungus Bogs.png";
+import GlacialStrata from "../assets/biomes/Glacial Strata.png";
+import HollowBough from "../assets/biomes/Hollow Bough.png";
+import MagmaCore from "../assets/biomes/Magma Core.png";
+import RadioactiveExclusionZone from "../assets/biomes/Radioactive Exclusion Zone.png";
+import SaltPits from "../assets/biomes/Salt Pits.png";
+import SandblastedCorridors from "../assets/biomes/Sandblasted Corridors.png";
 
 //const itemsPerPage = 10;
 //const gameDirectory = "D:\\Games\\SteamLibrary\\steamapps\\common\\Deep Rock Galactic\\FSD\\Mods\\SuperMissionStats";
@@ -16,16 +26,16 @@ interface BiomeImages {
 }
 
 const biomeImages: BiomeImages = {
-    "Azure Weald": "src/assets/biomes/Azure Weald.png",
-    "Crystalline Caverns": "src/assets/biomes/Crystalline Caverns.png",
-    "Dense Biozone": "src/assets/biomes/Dense Biozone.png",
-    "Fungus Bogs": "src/assets/biomes/Fungus Bogs.png",
-    "Glacial Strata": "src/assets/biomes/Glacial Strata.png",
-    "Hollow Bough": "src/assets/biomes/Hollow Bough.png",
-    "Magma Core": "src/assets/biomes/Magma Core.png",
-    "Radioactive Exclusion Zone": "src/assets/biomes/Radioactive Exclusion Zone.png",
-    "Salt Pits": "src/assets/biomes/Salt Pits.png",
-    "Sandblasted Corridors": "src/assets/biomes/Sandblasted Corridors.png"
+    "Azure Weald": AzureWeald,
+    "Crystalline Caverns": CrystallineCaverns,
+    "Dense Biozone": DenseBiozone,
+    "Fungus Bogs": FungusBogs,
+    "Glacial Strata": GlacialStrata,
+    "Hollow Bough": HollowBough,
+    "Magma Core": MagmaCore,
+    "Radioactive Exclusion Zone": RadioactiveExclusionZone,
+    "Salt Pits": SaltPits,
+    "Sandblasted Corridors": SandblastedCorridors
 }
 
 const MissionList = () => {
@@ -55,7 +65,7 @@ const MissionList = () => {
 
             return parsedJson;
         } catch (error) {
-            console.error('Error fetching JSON content:', error.message);
+            console.error('Error fetching JSON content:', error);
             const jsonError = { error } as JSONError;
             jsonError.type = "JSONError";
 
