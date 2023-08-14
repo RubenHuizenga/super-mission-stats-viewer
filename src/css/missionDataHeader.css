@@ -1,0 +1,26 @@
+@import "../css/constants.css";
+
+.header {
+    background-size: 100% auto;
+    padding: 10px;
+}
+
+.success>.title {
+    color: var(--success-color);
+}
+
+.failure>.title {
+    color: var(--failure-color);
+}
+
+.title {
+    font-size: 2em;
+    font-family: "DangerFlight";
+    font-weight: 500;
+    margin: 2px;
+}
+
+.mission-info>h3,
+.mission-info>h5 {
+    margin: 5px;
+}

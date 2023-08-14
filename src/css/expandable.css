@@ -1,0 +1,8 @@
+.expandable {
+    cursor: pointer;
+    transition: height 0.3s ease;
+}
+
+.expanded {
+    height: auto;
+}

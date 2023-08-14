@@ -1,0 +1,35 @@
+@import "./constants.css";
+
+.mission-list {
+    flex-grow: 1;
+    background-color: var(--primary-color);
+}
+
+.mission-data {
+    background-size: cover;
+    border: 2px solid;
+}
+
+.mission-data>* {
+    background-color: rgba(0, 0, 0, 0.205);
+}
+
+.success {
+    border-color: var(--success-color);
+}
+
+.failure {
+    border-color: var(--failure-color);
+}
+
+.mission-list>ul {
+    padding: 0;
+}
+
+.expandable {
+    color: var(--primary-font-color);
+}
+
+.content {
+    margin-top: 10px;
+}

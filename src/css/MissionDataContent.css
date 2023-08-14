@@ -1,0 +1,44 @@
+@import "../css/constants.css";
+
+.content {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 50px;
+    padding: 15px;
+    padding-top: 0;
+    margin-top: 0;
+    justify-content: start;
+}
+
+.content h2 {
+    margin: 0px;
+    font-family: "InterHeader";
+    color: var(--secondary-font-color);
+}
+
+.mission-info {
+    margin: 0px;
+}
+
+table tr td:first-child {
+    padding-right: 15px;
+}
+
+table tr td {
+    vertical-align: top;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.clickable {
+    color: var(--clickable-color);
+    text-decoration: underline;
+}
+
+.sum-breakdown-table-total {
+    border-bottom: 1px solid var(--border-color);
+}

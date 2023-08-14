@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'DangerFlight';
+    src: url(../fonts/Danger-Flight/dangerflightexppand.ttf) format("woff");
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url(../fonts/inter/Inter-Light.otf) format("woff");
+}
+
+@font-face {
+    font-family: 'InterHeader';
+    src: url(../fonts/inter/Inter-Bold.otf) format("woff");
+}
+
+:root {
+    --primary-color: #2c2c2c;
+    --secondary-color: #363636;
+    --primary-font-color: #ffffff;
+    --secondary-font-color: #ebebeb;
+    --border-color: #d3d3d3;
+    --success-color: #25b420;
+    --failure-color: #e22020;
+    --clickable-color: #432ffa;
+}
