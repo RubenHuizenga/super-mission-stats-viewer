@@ -36,9 +36,14 @@ table {
 
 .clickable {
     color: var(--clickable-color);
-    text-decoration: underline;
 }
 
-.sum-breakdown-table-total {
+.expanded>.sum-breakdown-table-total {
     border-bottom: 1px solid var(--border-color);
+    color: var(--primary-font-color);
+}
+
+.sum-breakdown-table .percentage {
+    right: 0;
+    padding-left: 10px;
 }

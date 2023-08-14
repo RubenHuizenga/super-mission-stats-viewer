@@ -95,29 +95,24 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     <tr>
                         <td>Credits</td>
                         <td>
-                            <table>
+                            <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
-                                        <tr className='clickable'>Click for details</tr>
+                                        <tr className='sum-breakdown-table-total clickable'>
+                                            <td>Total</td>
+                                            <td>{totalCredits}</td>
+                                        </tr>
                                     }
 
                                     content={
-                                        <tr>
-                                            <table>
-                                                <tr className='sum-breakdown-table-total'>
-                                                    <td>Total</td>
-                                                    <td>{totalCredits}</td>
+                                        Object.entries(object.MissionResult.Credits).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                            return (
+                                                <tr>
+                                                    <td>{key}</td>
+                                                    <td>{value}</td>
                                                 </tr>
-                                                {Object.entries(object.MissionResult.Credits).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{key}</td>
-                                                            <td>{value}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </tr>
+                                            );
+                                        })
                                     }
                                 />
                             </table>
@@ -126,60 +121,50 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     <tr>
                         <td>XP</td>
                         <td>
-                            <table>
+                            <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
-                                        <tr className='clickable'>Click for details</tr>
+                                        <tr className='sum-breakdown-table-total clickable'>
+                                            <td>Total</td>
+                                            <td>{totalXP}</td>
+                                        </tr>
                                     }
 
                                     content={
-                                        <tr>
-                                            <table>
-                                                <tr className='sum-breakdown-table-total'>
-                                                    <td>Total</td>
-                                                    <td>{totalXP}</td>
+                                        Object.entries(object.MissionResult.XP).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                            return (
+                                                <tr>
+                                                    <td>{key}</td>
+                                                    <td>{value}</td>
                                                 </tr>
-                                                {Object.entries(object.MissionResult.XP).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{key}</td>
-                                                            <td>{value}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </tr>
+                                            );
+                                        })
                                     }
                                 />
                             </table>
                         </td>
                     </tr>
                     <tr>
-                        <td>Mineral mined</td>
+                        <td>Minerals mined</td>
                         <td>
-                            <table>
+                            <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
-                                        <tr className='clickable'>Click for details</tr>
+                                        <tr className='sum-breakdown-table-total clickable'>
+                                            <td>Total</td>
+                                            <td>{totalMineralsMined}</td>
+                                        </tr>
                                     }
 
                                     content={
-                                        <tr>
-                                            <table>
-                                                <tr className='sum-breakdown-table-total'>
-                                                    <td>Total</td>
-                                                    <td>{totalMineralsMined}</td>
+                                        Object.entries(object.MissionResult.MineralsMinedTeam).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                            return (
+                                                <tr>
+                                                    <td>{key}</td>
+                                                    <td>{value}</td>
                                                 </tr>
-                                                {Object.entries(object.MissionResult.MineralsMinedTeam).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{key}</td>
-                                                            <td>{value}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </tr>
+                                            );
+                                        })
                                     }
                                 />
                             </table>
@@ -201,29 +186,25 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     <tr>
                         <td>Damage dealt</td>
                         <td>
-                            <table>
+                            <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
-                                        <tr className='clickable'>Click for details</tr>
+                                        <tr className='sum-breakdown-table-total clickable'>
+                                            <td>Total</td>
+                                            <td>{Math.trunc(totalDamageDealt)}</td>
+                                        </tr>
                                     }
 
                                     content={
-                                        <tr>
-                                            <table>
-                                                <tr className='sum-breakdown-table-total'>
-                                                    <td>Total</td>
-                                                    <td>{Math.trunc(totalDamageDealt)}</td>
+                                        Object.entries(object.PlayerStats.DamageDealt).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                            return (
+                                                <tr>
+                                                    <td>{key}</td>
+                                                    <td>{Math.trunc(Number(value))}</td>
+                                                    <td className='percentage'>({(Math.trunc(Number(value) / totalDamageDealt * 100))}%)</td>
                                                 </tr>
-                                                {Object.entries(object.PlayerStats.DamageDealt).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{key}</td>
-                                                            <td>{Math.trunc(Number(value))}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </tr>
+                                            );
+                                        })
                                     }
                                 />
                             </table>
@@ -240,29 +221,24 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     <tr>
                         <td>Enemies killed</td>
                         <td>
-                            <table>
+                            <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
-                                        <tr className='clickable'>Click for details</tr>
+                                        <tr className='sum-breakdown-table-total clickable'>
+                                            <td>Total</td>
+                                            <td>{Math.trunc(totalEnemiesKilled)}</td>
+                                        </tr>
                                     }
 
-                                    content={
-                                        <tr>
-                                            <table>
-                                                <tr className='sum-breakdown-table-total'>
-                                                    <td>Total</td>
-                                                    <td>{Math.trunc(totalEnemiesKilled)}</td>
-                                                </tr>
-                                                {Object.entries(object.PlayerStats.EnemiesKilled).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{key}</td>
-                                                            <td>{value}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </tr>
+                                    content={Object.entries(object.PlayerStats.EnemiesKilled).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                        return (
+                                            <tr>
+                                                <td>{key}</td>
+                                                <td>{value}</td>
+                                                <td className='percentage'>({(Math.trunc(Number(value) / totalDamageDealt * 100))}%)</td>
+                                            </tr>
+                                        );
+                                    })
                                     }
                                 />
                             </table>
@@ -311,4 +287,3 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
 };
 
 export default MissionDataContent;
-

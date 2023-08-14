@@ -3,7 +3,7 @@ import "../css/expandable.css"
 
 interface ExpandableProps {
     header: JSX.Element;
-    content: JSX.Element;
+    content: JSX.Element | JSX.Element[];
 }
 
 const Expandable: React.FC<ExpandableProps> = ({ header, content }) => {

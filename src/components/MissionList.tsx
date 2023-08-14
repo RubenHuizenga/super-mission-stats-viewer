@@ -107,9 +107,7 @@ const MissionList = () => {
 
     return (
         <section className="mission-list">
-            <input
-                type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange}
-            />
+            <input type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange} />
             <button onClick={fetchData}>Refresh</button>
             <ul>
                 {filteredFileContents.map((content, index) => {
