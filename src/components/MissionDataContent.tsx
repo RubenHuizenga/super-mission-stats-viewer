@@ -36,6 +36,11 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
         if (typeof value === 'number') totalXP += value;
     });
 
+    let totalMineralsMined = 0;
+    Object.entries(object.MissionResult.MineralsMinedTeam).map(([_, value]: [string, string | number]) => {
+        if (typeof value === 'number') totalMineralsMined += value;
+    });
+
     let totalDamageDealt = 0;
     Object.entries(object.PlayerStats.DamageDealt).map(([_, value]: [string, string | number]) => {
         if (typeof value === 'number') totalDamageDealt += value;
@@ -163,7 +168,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                                             <table>
                                                 <tr className='sum-breakdown-table-total'>
                                                     <td>Total</td>
-                                                    <td>{totalCredits}</td>
+                                                    <td>{totalMineralsMined}</td>
                                                 </tr>
                                                 {Object.entries(object.MissionResult.MineralsMinedTeam).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
                                                     return (
