@@ -18,8 +18,9 @@
     --secondary-color: #363636;
     --primary-font-color: #ffffff;
     --secondary-font-color: #ebebeb;
+    --title-font-color: #00b2ff;
     --border-color: #d3d3d3;
     --success-color: #25b420;
     --failure-color: #e22020;
-    --clickable-color: #00b2ff;
+    --clickable-color: #00ffff;
 }

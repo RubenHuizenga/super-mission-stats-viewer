@@ -5,20 +5,38 @@
     background-color: var(--primary-color);
 }
 
-.mission-data {
+.header {
+    background-size: 100% auto;
+    padding: 10px;
+}
+
+.data-container .header h3,
+.data-container .header h5 {
+    margin: 5px;
+}
+
+.title {
+    font-size: 2em;
+    font-family: "DangerFlight";
+    font-weight: 500;
+    color: var(--title-font-color);
+    margin: 2px;
+}
+
+.data-container {
     background-size: cover;
     border: 2px solid;
 }
 
-.mission-data>* {
+.data-container>* {
     background-color: rgba(0, 0, 0, 0.205);
 }
 
-.success {
+.success-border {
     border-color: var(--success-color);
 }
 
-.failure {
+.failure-border {
     border-color: var(--failure-color);
 }
 
@@ -31,5 +49,17 @@
 }
 
 .content {
-    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 50px;
+    padding: 15px;
+    padding-top: 0;
+    margin-top: 0;
+    justify-content: start;
+}
+
+.content h2 {
+    margin: 0px;
+    font-family: "InterHeader";
+    color: var(--secondary-font-color);
 }

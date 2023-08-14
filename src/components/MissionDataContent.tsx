@@ -2,27 +2,10 @@ import React from 'react';
 import '../css/missionDataContent.css';
 import { MissionDataInterface } from '../interfaces/MissionData';
 import Expandable from './Expandable';
+import { formatTimeSpan, toTitleCase } from '../utils/formatting';
 
 interface MissionDataContentProps {
     object: MissionDataInterface
-}
-
-function formatTimeSpan(seconds: number): string {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
-
-    const hoursText = hours > 0 ? `${hours}h` : '';
-    const minutesText = minutes > 0 ? `${minutes}m` : '';
-    const secondsText = remainingSeconds > 0 ? `${Math.trunc(remainingSeconds)}s` : '';
-
-    return `${hoursText} ${minutesText} ${secondsText}`.trim();
-}
-
-function toTitleCase(input: string): string {
-    return input.replace(/\w\S*/g, (word) => {
-        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-    });
 }
 
 const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
@@ -57,7 +40,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                 <h2>Mission Info</h2>
                 <table className='mission-info-table'>
                     <tr>
-                        <td>Secondaries</td>
+                        <td>Secondary Objectives</td>
                         <td>
                             {Object.entries(object.MissionInfo.Secondaries).map(([_, value]) => (
                                 <span>{value}</span>
@@ -201,7 +184,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                                                 <tr>
                                                     <td>{key}</td>
                                                     <td>{Math.trunc(Number(value))}</td>
-                                                    <td className='percentage'>({(Math.trunc(Number(value) / totalDamageDealt * 100))}%)</td>
+                                                    <td className='percentage'>({((Number(value) / totalDamageDealt * 100).toFixed(2))}%)</td>
                                                 </tr>
                                             );
                                         })
@@ -212,11 +195,11 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     </tr>
                     <tr>
                         <td>DPS</td>
-                        <td>{Math.trunc(object.PlayerStats.DPS) ?? "0"}</td>
+                        <td>{object.PlayerStats.DPS.toFixed(2) ?? "0"}</td>
                     </tr>
                     <tr>
                         <td>Most single hit damage</td>
-                        <td>{Math.trunc(object.PlayerStats.MostSingleHitDamage) ?? "0"}</td>
+                        <td>{object.PlayerStats.MostSingleHitDamage.toFixed(2) ?? "0"}</td>
                     </tr>
                     <tr>
                         <td>Enemies killed</td>
@@ -226,7 +209,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                                     header={
                                         <tr className='sum-breakdown-table-total clickable'>
                                             <td>Total</td>
-                                            <td>{Math.trunc(totalEnemiesKilled)}</td>
+                                            <td>{totalEnemiesKilled}</td>
                                         </tr>
                                     }
 
@@ -235,7 +218,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                                             <tr>
                                                 <td>{key}</td>
                                                 <td>{value}</td>
-                                                <td className='percentage'>({(Math.trunc(Number(value) / totalDamageDealt * 100))}%)</td>
+                                                <td className='percentage'>({(Number(value) / totalDamageDealt * 100).toFixed(2)}%)</td>
                                             </tr>
                                         );
                                     })

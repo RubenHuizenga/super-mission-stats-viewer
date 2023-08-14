@@ -17,6 +17,8 @@ import MagmaCore from "../assets/biomes/Magma Core.png";
 import RadioactiveExclusionZone from "../assets/biomes/Radioactive Exclusion Zone.png";
 import SaltPits from "../assets/biomes/Salt Pits.png";
 import SandblastedCorridors from "../assets/biomes/Sandblasted Corridors.png";
+import DrgBg from '../assets/drg.jpg'
+import OverallStats from "./OverallStats"
 
 //const itemsPerPage = 10;
 //const gameDirectory = "D:\\Games\\SteamLibrary\\steamapps\\common\\Deep Rock Galactic\\FSD\\Mods\\SuperMissionStats";
@@ -92,7 +94,6 @@ const MissionList = () => {
     };
 
     useEffect(() => {
-        console.log(fileContents);
         setFilteredFileContents(fileContents.filter((content) => {
             return content.type === "MissionData"
         }));
@@ -109,11 +110,16 @@ const MissionList = () => {
         <section className="mission-list">
             <input type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange} />
             <button onClick={fetchData}>Refresh</button>
-            <ul>
+            <section>
+                {filteredFileContents.length > 0 && (
+                    <section className='data-container' style={{ backgroundImage: `url('${DrgBg}'` }}>
+                        <OverallStats contents={filteredFileContents} />
+                    </section>
+                )}
                 {filteredFileContents.map((content, index) => {
                     if (content.type === 'MissionData') {
                         return (
-                            <section key={index} className={`mission-data ${content.MissionResult.WasSuccess ? 'success' : 'failure'}`} style={{ backgroundImage: `url('${biomeImages[content.MissionInfo.Biome]}'` }}>
+                            <section key={index} className={`data-container ${content.MissionResult.WasSuccess ? 'success-border' : 'failure-border'}`} style={{ backgroundImage: `url('${biomeImages[content.MissionInfo.Biome]}'` }}>
                                 <Expandable
                                     header={<MissionDataHeader object={content} />}
                                     content={<MissionDataContent object={content} />}
@@ -128,7 +134,7 @@ const MissionList = () => {
                         return null;
                     }
                 })}
-            </ul >
+            </section >
         </section >
     )
 }

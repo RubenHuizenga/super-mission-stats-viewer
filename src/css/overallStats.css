@@ -1,0 +1,7 @@
+.overall-stats {
+    background-size: 100% auto;
+}
+
+.overall-stats .header>h3 {
+    margin: 5px;
+}
