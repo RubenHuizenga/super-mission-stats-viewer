@@ -17,7 +17,7 @@ import MagmaCore from "../assets/biomes/Magma Core.png";
 import RadioactiveExclusionZone from "../assets/biomes/Radioactive Exclusion Zone.png";
 import SaltPits from "../assets/biomes/Salt Pits.png";
 import SandblastedCorridors from "../assets/biomes/Sandblasted Corridors.png";
-import DrgBg from '../assets/drg.jpg'
+import DrgBg from '../assets/drg-blur.jpg'
 import OverallStats from "./OverallStats"
 
 //const itemsPerPage = 10;
