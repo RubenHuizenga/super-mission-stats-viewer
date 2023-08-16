@@ -76,22 +76,19 @@ const MissionList = () => {
     };
 
     const fetchData = async () => {
+        console.log("Fetch")
         await fetchFileNames();
+    };
 
-        if (fileNames.length === 0) {
-            return;
-        }
+    useEffect(() => {
+        if (fileNames.length === 0) return;
 
         const fetchPromises = fileNames.map((fileName) => fetchJsonContent(fileName));
 
         Promise.all(fetchPromises)
-            .then((results) => {
-                setFileContents(results);
-            })
-            .catch((error) => {
-                console.error('Error fetching JSON contents:', error);
-            });
-    };
+            .then((results) => setFileContents(results))
+            .catch((error) => console.error('Error fetching JSON contents:', error))
+    }, [fileNames]);
 
     useEffect(() => {
         // Sort on the start time
@@ -107,6 +104,8 @@ const MissionList = () => {
     }, [fileContents]);
 
     useEffect(() => {
+
+        console.log("Filtered")
     }, [filteredFileContents]);
 
     const handleFolderNameChange = (event: ChangeEvent<HTMLInputElement>) => {

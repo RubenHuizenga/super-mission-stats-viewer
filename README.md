@@ -3,9 +3,9 @@
 
  ### This is still an early version, improvements will be made
 
- To use the app, first make sure you have the mod installed. When you open the app, input the directory where the files are saved. This should be `[Deep Rock Galactic folder]\FSD\Mods\SuperMissionStats\`. Then, press the refresh button twice to start, and once after every played mission to load in the new stats.
+ To use the app, first make sure you have the mod installed. When you open the app, input the directory where the files are saved. This should be `[Deep Rock Galactic folder]\FSD\Mods\SuperMissionStats\`. Then, press the refresh button to start, and once after every played mission to load in the new stats.
 
- In the overview you can see all your missions with their stats. Click on them to expand them and see more.
+ In the overview you can see all your missions with their stats. Click on them to expand them and see more. Blue colored text can be expanded further by clicking on it.
 
  If you have any tips, feel free to let me know. This is my first time using most of the technologies used in this app, so any feedback is always appreciated.
 
