@@ -51,7 +51,7 @@ const MissionList = () => {
             const response = await invoke<string[]>('get_files_in_directory', {
                 directoryPath: folderName,
             });
-            setFileNames(response.reverse());
+            setFileNames(response);
         } catch (error) {
             console.error('Error fetching file names:', error);
         }
@@ -94,7 +94,14 @@ const MissionList = () => {
     };
 
     useEffect(() => {
-        setFilteredFileContents(fileContents.filter((content) => {
+        // Sort on the start time
+        setFilteredFileContents(fileContents.sort((a, b) => {
+            if (a.type === "MissionData" && b.type === "MissionData") {
+                return new Date(b.MissionInfo.StartDateTime).getTime() - new Date(a.MissionInfo.StartDateTime).getTime();
+            } else {
+                return 0;
+            }
+        }).filter((content) => {
             return content.type === "MissionData"
         }));
     }, [fileContents]);
