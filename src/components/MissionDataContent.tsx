@@ -223,7 +223,7 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                                                 <tr>
                                                     <td>{key}</td>
                                                     <td>{value}</td>
-                                                    <td className='percentage'>({(Number(value) / totalDamageDealt * 100).toFixed(2)}%)</td>
+                                                    <td className='percentage'>({(Number(value) / totalEnemiesKilled * 100).toFixed(2)}%)</td>
                                                 </tr>
                                             );
                                         })

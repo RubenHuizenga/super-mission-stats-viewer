@@ -44,9 +44,9 @@ function getExpandableBreakdownTableForMapWithTotal(map: SortedStringNumberMap, 
                 header={
                     <tr className='sum-breakdown-table-total clickable'>
                         <td>Total</td>
-                        <td>{Math.trunc(map.getTotal())}</td>
+                        <td>{Math.trunc(total)}</td>
                         <td></td>
-                        <td>{(map.getTotal() / totalMissions).toFixed(2)} per mission</td>
+                        <td>{(total / totalMissions).toFixed(2)} per mission</td>
                     </tr>
                 }
 
@@ -82,7 +82,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
     let titles = new SortedStringNumberMap();
     let damageDealt = new SortedStringNumberMap();
     let enemiesKilled = new SortedStringNumberMap();
-    let totalEnemiesKilled = 0;
+    let totalEnemiesKilledClient = 0;
     let DPS = 0;
     let MostSingleHitDamage = 0;
     let FlaresThrown = 0;
@@ -113,7 +113,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
             heros.increment(toTitleCase(content.PlayerStats.Hero));
             titles.increment(content.PlayerStats.Title ?? "None");
             Object.entries(content.PlayerStats.DamageDealt).forEach(([key, value]: [string, string | number]) => { damageDealt.increment(key, Number(value)); });
-            if (typeof content.PlayerStats.EnemiesKilled === "number") totalEnemiesKilled = content.PlayerStats.EnemiesKilled;
+            if (typeof content.PlayerStats.EnemiesKilled === "number") totalEnemiesKilledClient += content.PlayerStats.EnemiesKilled;
             else Object.entries(content.PlayerStats.EnemiesKilled).forEach(([key, value]: [string, string | number]) => { enemiesKilled.increment(key, Number(value)); });
             DPS += content.PlayerStats.DPS ?? 0;
             if (content.PlayerStats.MostSingleHitDamage > MostSingleHitDamage) MostSingleHitDamage = content.PlayerStats.MostSingleHitDamage;
@@ -131,6 +131,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
         }
     })
 
+    enemiesKilled.set("Client Kills (unknown)", totalEnemiesKilledClient);
 
     return (
         <section className='overall-stats'>
@@ -237,7 +238,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                     <tr>
                                         <td>Enemies Killed</td>
                                         <td>
-                                            {typeof enemiesKilled === "number" ? totalEnemiesKilled : getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}
+                                            {getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}
                                         </td>
                                     </tr>
                                     <tr>
