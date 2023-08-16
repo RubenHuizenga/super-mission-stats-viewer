@@ -77,11 +77,12 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
     let hazardLevels = new SortedStringNumberMap();
     let credits = new SortedStringNumberMap();
     let xp = new SortedStringNumberMap();
-    let mineralsMined = new SortedStringNumberMap();
+    let endscreenResources = new SortedStringNumberMap();
     let heros = new SortedStringNumberMap();
     let titles = new SortedStringNumberMap();
     let damageDealt = new SortedStringNumberMap();
     let enemiesKilled = new SortedStringNumberMap();
+    let totalEnemiesKilled = 0;
     let DPS = 0;
     let MostSingleHitDamage = 0;
     let FlaresThrown = 0;
@@ -94,6 +95,8 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
     let TotalTimeDown = 0;
     let TimesResupplied = 0;
     let LongestTimeAlive = 0;
+    let totalGamesHost = 0;
+    let totalGamesClient = 0;
 
     contents.map((content) => {
         if (content.type === "MissionData") {
@@ -106,11 +109,12 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
             hazardLevels.increment(content.MissionInfo.Hazard.toString());
             Object.entries(content.MissionResult.Credits).forEach(([key, value]: [string, string | number]) => { credits.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
             Object.entries(content.MissionResult.XP).forEach(([key, value]: [string, string | number]) => { xp.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
-            Object.entries(content.MissionResult.MineralsMinedTeam).forEach(([key, value]: [string, string | number]) => { mineralsMined.increment(key, Number(value)); });
+            Object.entries(content.MissionResult.EndscreenResources).forEach(([key, value]: [string, string | number]) => { endscreenResources.increment(key, Number(value)); });
             heros.increment(toTitleCase(content.PlayerStats.Hero));
             titles.increment(content.PlayerStats.Title ?? "None");
             Object.entries(content.PlayerStats.DamageDealt).forEach(([key, value]: [string, string | number]) => { damageDealt.increment(key, Number(value)); });
-            Object.entries(content.PlayerStats.EnemiesKilled).forEach(([key, value]: [string, string | number]) => { enemiesKilled.increment(key, Number(value)); });
+            if (typeof content.PlayerStats.EnemiesKilled === "number") totalEnemiesKilled = content.PlayerStats.EnemiesKilled;
+            else Object.entries(content.PlayerStats.EnemiesKilled).forEach(([key, value]: [string, string | number]) => { enemiesKilled.increment(key, Number(value)); });
             DPS += content.PlayerStats.DPS ?? 0;
             if (content.PlayerStats.MostSingleHitDamage > MostSingleHitDamage) MostSingleHitDamage = content.PlayerStats.MostSingleHitDamage;
             FlaresThrown += content.PlayerStats.FlaresThrown ?? 0;
@@ -123,6 +127,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
             TotalTimeDown += content.PlayerStats.TotalTimeDown ?? 0;
             TimesResupplied += content.PlayerStats.TimesResupplied ?? 0;
             if (content.PlayerStats.LongestTimeAlive > LongestTimeAlive) LongestTimeAlive = content.PlayerStats.LongestTimeAlive;
+            content.PlayerStats.IsHost ? totalGamesHost++ : totalGamesClient++;
         }
     })
 
@@ -187,9 +192,9 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Minerals Mined</td>
+                                        <td>End screen resources</td>
                                         <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(mineralsMined, mineralsMined.getTotal(), totalMissions)}
+                                            {getExpandableBreakdownTableForMapWithTotal(endscreenResources, endscreenResources.getTotal(), totalMissions)}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -199,6 +204,10 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                             <h2>Player Stats</h2>
                             <table className='player-stats-table'>
                                 <tbody>
+                                    <tr>
+                                        <td>Games hosted</td>
+                                        <td>{totalGamesHost} (client {totalGamesClient} times)</td>
+                                    </tr>
                                     <tr>
                                         <td>Classes</td>
                                         <td>
@@ -228,7 +237,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                     <tr>
                                         <td>Enemies Killed</td>
                                         <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}
+                                            {typeof enemiesKilled === "number" ? totalEnemiesKilled : getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}
                                         </td>
                                     </tr>
                                     <tr>

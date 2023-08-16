@@ -19,9 +19,9 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
         if (typeof value === 'number') totalXP += value;
     });
 
-    let totalMineralsMined = 0;
-    Object.entries(object.MissionResult.MineralsMinedTeam).map(([_, value]: [string, string | number]) => {
-        if (typeof value === 'number') totalMineralsMined += value;
+    let endscreenResources = 0;
+    Object.entries(object.MissionResult.EndscreenResources).map(([_, value]: [string, string | number]) => {
+        if (typeof value === 'number') endscreenResources += value;
     });
 
     let totalDamageDealt = 0;
@@ -30,9 +30,13 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
     });
 
     let totalEnemiesKilled = 0;
-    Object.entries(object.PlayerStats.EnemiesKilled).map(([_, value]: [string, string | number]) => {
-        if (typeof value === 'number') totalEnemiesKilled += value;
-    });
+    if (typeof object.PlayerStats.EnemiesKilled === "number") {
+        totalEnemiesKilled = object.PlayerStats.EnemiesKilled;
+    } else {
+        Object.entries(object.PlayerStats.EnemiesKilled).map(([_, value]: [string, string | number]) => {
+            if (typeof value === 'number') totalEnemiesKilled += value;
+        });
+    }
 
     return (
         <section className='content'>
@@ -128,19 +132,19 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                         </td>
                     </tr>
                     <tr>
-                        <td>Minerals mined</td>
+                        <td>End screen resources</td>
                         <td>
                             <table className='sum-breakdown-table'>
                                 <Expandable
                                     header={
                                         <tr className='sum-breakdown-table-total clickable'>
                                             <td>Total</td>
-                                            <td>{totalMineralsMined}</td>
+                                            <td>{endscreenResources}</td>
                                         </tr>
                                     }
 
                                     content={
-                                        Object.entries(object.MissionResult.MineralsMinedTeam).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                        Object.entries(object.MissionResult.EndscreenResources).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
                                             return (
                                                 <tr>
                                                     <td>{key}</td>
@@ -204,27 +208,30 @@ const MissionDataContent: React.FC<MissionDataContentProps> = ({ object }) => {
                     <tr>
                         <td>Enemies killed</td>
                         <td>
-                            <table className='sum-breakdown-table'>
-                                <Expandable
-                                    header={
-                                        <tr className='sum-breakdown-table-total clickable'>
-                                            <td>Total</td>
-                                            <td>{totalEnemiesKilled}</td>
-                                        </tr>
-                                    }
-
-                                    content={Object.entries(object.PlayerStats.EnemiesKilled).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
-                                        return (
-                                            <tr>
-                                                <td>{key}</td>
-                                                <td>{value}</td>
-                                                <td className='percentage'>({(Number(value) / totalDamageDealt * 100).toFixed(2)}%)</td>
+                            {typeof object.PlayerStats.EnemiesKilled === "number" ? object.PlayerStats.EnemiesKilled :
+                                <table className='sum-breakdown-table'>
+                                    <Expandable
+                                        header={
+                                            <tr className='sum-breakdown-table-total clickable'>
+                                                <td>Total</td>
+                                                <td>{totalEnemiesKilled}</td>
                                             </tr>
-                                        );
-                                    })
-                                    }
-                                />
-                            </table>
+                                        }
+
+                                        content={Object.entries(object.PlayerStats.EnemiesKilled).sort((a, b) => Number(b[1]) - Number(a[1])).map(([key, value]: [string, string | number]) => {
+                                            return (
+                                                <tr>
+                                                    <td>{key}</td>
+                                                    <td>{value}</td>
+                                                    <td className='percentage'>({(Number(value) / totalDamageDealt * 100).toFixed(2)}%)</td>
+                                                </tr>
+                                            );
+                                        })
+                                        }
+                                    />
+                                </table>
+
+                            }
                         </td>
                     </tr>
                     <tr>

@@ -26,6 +26,7 @@ export interface MissionDataInterface {
         StartDateTime: string;
     };
     PlayerStats: {
+        IsHost: boolean
         Name: string;
         Hero: string;
         PlayerRank: number;
@@ -35,7 +36,7 @@ export interface MissionDataInterface {
         TotalRevives: number;
         TotalTimeDown: number;
         DamageDealt: UnknownObject
-        EnemiesKilled: UnknownObject;
+        EnemiesKilled: UnknownObject | number;
         FlaresThrown: number;
         Jumps: number;
         Pings: number;
@@ -53,6 +54,6 @@ export interface MissionDataInterface {
         Credits: UnknownObject;
         WasSuccess: boolean
         XP: UnknownObject;
-        MineralsMinedTeam: UnknownObject;
+        EndscreenResources: UnknownObject;
     };
 }
