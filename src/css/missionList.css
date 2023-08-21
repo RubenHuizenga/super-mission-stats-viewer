@@ -29,6 +29,7 @@
     max-width: 100%;
     border: 2px solid;
     overflow: auto;
+    margin: 0 10px;
 }
 
 .data-container>* {
@@ -36,6 +37,20 @@
     max-height: 100%;
     width: 100%;
     overflow: auto;
+}
+
+.search-bar {
+    padding: 10px 0;
+    display: grid;
+    align-items: center;
+}
+
+.search-bar>* {
+    margin-right: 15px;
+}
+
+.folder-select {
+    justify-self: right;
 }
 
 .success-border {

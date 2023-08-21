@@ -67,7 +67,6 @@ export interface IPlayerStats {
     Pings: number;
     LookedAtMap: number;
     Salutes: number;
-
     TimesResupplied: number;
     LongestTimeAlive: number
     MostSingleHitDamage: number;

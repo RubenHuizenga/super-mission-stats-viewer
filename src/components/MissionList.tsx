@@ -19,9 +19,11 @@ import SaltPits from "../assets/biomes/Salt Pits.png";
 import SandblastedCorridors from "../assets/biomes/Sandblasted Corridors.png";
 import DrgBg from '../assets/drg-blur.jpg'
 import OverallStats from "./OverallStats"
+import { open } from '@tauri-apps/api/dialog';
 
 //const itemsPerPage = 10;
 //const gameDirectory = "D:\\Games\\SteamLibrary\\steamapps\\common\\Deep Rock Galactic\\FSD\\Mods\\SuperMissionStats";
+const statsPathKey = "StatsPath";
 
 interface IBiomeImages {
     [biome: string]: string;
@@ -45,6 +47,18 @@ const MissionList = () => {
     const [fileNames, setFileNames] = useState<string[]>([]);
     const [fileContents, setFileContents] = useState<(IMissionDataInterface | IJSONError)[]>([]);
     const [filteredFileContents, setFilteredFileContents] = useState<(IMissionDataInterface | IJSONError)[]>([]);
+
+    const handleSelectFolder = async () => {
+        try {
+            const result = await open({ directory: true, multiple: false });
+            if (result?.length && typeof result === 'string') {
+                localStorage.setItem(statsPathKey, result);
+                setFolderName(result);
+            }
+        } catch (error) {
+            console.error('Error selecting folder:', error);
+        }
+    };
 
     const fetchFileNames = async () => {
         try {
@@ -105,16 +119,21 @@ const MissionList = () => {
     useEffect(() => {
     }, [filteredFileContents]);
 
-    const handleFolderNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setFolderName(event.target.value);
-    };
+    useEffect(() => {
+        const statsPath = localStorage.getItem(statsPathKey);
+        if (statsPath) {
+            setFolderName(statsPath);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [folderName]);
 
     return (
         <section className="mission-list">
             <section className='search-bar'>
-
-                <input type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange} />
-                <button onClick={fetchData}>Refresh</button>
+                <button className='folder-select' onClick={handleSelectFolder}>Select Stats Folder</button>
             </section>
             <section>
                 {filteredFileContents.length > 0 && (

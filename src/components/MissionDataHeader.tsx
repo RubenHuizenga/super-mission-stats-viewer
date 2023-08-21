@@ -15,7 +15,7 @@ const MissionDataHeader: React.FC<IMissionDataHeaderProps> = ({ object }) => {
                     {object.MissionInfo.Biome}
                     {object.MissionInfo.IsDeepdive
                         ? `${object.MissionInfo.IsElite ? " - Elite " : " - "}Deep Dive`
-                        : `- ${object.MissionInfo.Hazard} `}
+                        : ` - ${object.MissionInfo.Hazard} `}
                     {object.MissionResult.WasSuccess ? " - Success" : " - Failure"}
                     {object.PlayerStats.IsHost ? " - Host" : " - Client"}
                 </h3>
