@@ -66,6 +66,7 @@ function getExpandableBreakdownTableForMapWithTotal(map: SortedStringNumberMap, 
 
 const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
     let totalMissions = 0;
+    let totalGames = 0;
     let winRate = 0;
     let totalMissionTime = 0;
     let regions = new SortedStringNumberMap();
@@ -128,6 +129,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
                 hazardLevels.increment(content.MissionInfo.Hazard.toString());
             }
 
+            totalGames++;
             regions.increment(content.MissionInfo.Biome);
 
             // Mission Result
@@ -178,7 +180,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
                                 <tbody>
                                     <tr>
                                         <td>Biomes</td>
-                                        <td>{getExpandableBreakdownTableForMap(regions, totalMissions)}</td>
+                                        <td>{getExpandableBreakdownTableForMap(regions, totalGames)}</td>
                                     </tr>
                                     <tr>
                                         <td>Main Objectives</td>
@@ -249,11 +251,11 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
                                     </tr>
                                     <tr>
                                         <td>Classes</td>
-                                        <td>{getExpandableBreakdownTableForMap(heros, totalMissions)}</td>
+                                        <td>{getExpandableBreakdownTableForMap(heros, totalGames)}</td>
                                     </tr>
                                     <tr>
                                         <td>Titles</td>
-                                        <td>{getExpandableBreakdownTableForMap(titles, totalMissions)}</td>
+                                        <td>{getExpandableBreakdownTableForMap(titles, totalGames)}</td>
                                     </tr>
                                     <tr>
                                         <td>Damage Dealt</td>
