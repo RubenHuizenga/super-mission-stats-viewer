@@ -5,7 +5,7 @@ import "../css/missionList.css"
 import { invoke } from "@tauri-apps/api/tauri";
 import MissionDataContent from './MissionDataContent';
 import MissionDataHeader from './MissionDataHeader';
-import { MissionDataInterface, JSONError } from '../interfaces/MissionData';
+import { IMissionDataInterface, IJSONError } from '../interfaces/MissionData';
 import Expandable from './Expandable';
 import AzureWeald from "../assets/biomes/Azure Weald.png";
 import CrystallineCaverns from "../assets/biomes/Crystalline Caverns.png";
@@ -23,11 +23,11 @@ import OverallStats from "./OverallStats"
 //const itemsPerPage = 10;
 //const gameDirectory = "D:\\Games\\SteamLibrary\\steamapps\\common\\Deep Rock Galactic\\FSD\\Mods\\SuperMissionStats";
 
-interface BiomeImages {
+interface IBiomeImages {
     [biome: string]: string;
 }
 
-const biomeImages: BiomeImages = {
+const biomeImages: IBiomeImages = {
     "Azure Weald": AzureWeald,
     "Crystalline Caverns": CrystallineCaverns,
     "Dense Biozone": DenseBiozone,
@@ -43,8 +43,8 @@ const biomeImages: BiomeImages = {
 const MissionList = () => {
     const [folderName, setFolderName] = useState('');
     const [fileNames, setFileNames] = useState<string[]>([]);
-    const [fileContents, setFileContents] = useState<(MissionDataInterface | JSONError)[]>([]);
-    const [filteredFileContents, setFilteredFileContents] = useState<(MissionDataInterface | JSONError)[]>([]);
+    const [fileContents, setFileContents] = useState<(IMissionDataInterface | IJSONError)[]>([]);
+    const [filteredFileContents, setFilteredFileContents] = useState<(IMissionDataInterface | IJSONError)[]>([]);
 
     const fetchFileNames = async () => {
         try {
@@ -62,13 +62,13 @@ const MissionList = () => {
             const response = await invoke<string>('read_json_file', {
                 filePath: `${folderName}/${fileName}`,
             });
-            const parsedJson = JSON.parse(response) as MissionDataInterface;
+            const parsedJson = JSON.parse(response) as IMissionDataInterface;
             parsedJson.type = "MissionData";
 
             return parsedJson;
         } catch (error) {
             console.error('Error fetching JSON content:', error);
-            const jsonError = { error } as JSONError;
+            const jsonError = { error } as IJSONError;
             jsonError.type = "JSONError";
 
             return jsonError;
@@ -76,7 +76,6 @@ const MissionList = () => {
     };
 
     const fetchData = async () => {
-        console.log("Fetch")
         await fetchFileNames();
     };
 
@@ -104,8 +103,6 @@ const MissionList = () => {
     }, [fileContents]);
 
     useEffect(() => {
-
-        console.log("Filtered")
     }, [filteredFileContents]);
 
     const handleFolderNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -114,8 +111,11 @@ const MissionList = () => {
 
     return (
         <section className="mission-list">
-            <input type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange} />
-            <button onClick={fetchData}>Refresh</button>
+            <section className='search-bar'>
+
+                <input type="text" placeholder="Enter folder name" value={folderName} onChange={handleFolderNameChange} />
+                <button onClick={fetchData}>Refresh</button>
+            </section>
             <section>
                 {filteredFileContents.length > 0 && (
                     <section className='data-container' style={{ backgroundImage: `url('${DrgBg}'` }}>

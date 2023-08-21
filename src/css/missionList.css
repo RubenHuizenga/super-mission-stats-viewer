@@ -6,7 +6,6 @@
 }
 
 .header {
-    background-size: 100% auto;
     padding: 10px;
 }
 
@@ -25,11 +24,18 @@
 
 .data-container {
     background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    max-width: 100%;
     border: 2px solid;
+    overflow: auto;
 }
 
 .data-container>* {
     background-color: rgba(0, 0, 0, 0.205);
+    max-height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 
 .success-border {
@@ -44,10 +50,6 @@
     padding: 0;
 }
 
-.expandable {
-    color: var(--primary-font-color);
-}
-
 .content {
     display: grid;
     grid-template-columns: auto auto;
@@ -56,6 +58,14 @@
     padding-top: 0;
     margin-top: 0;
     justify-content: start;
+}
+
+.content .player-stats {
+    grid-column: span 2;
+}
+
+.overall-stats .content {
+    grid-template-columns: auto auto auto;
 }
 
 .content h2 {

@@ -1,6 +1,11 @@
-.expandable {
+.expandable-header {
     cursor: pointer;
     transition: height 0.3s ease;
+    color: var(--primary-font-color);
+}
+
+.expandable-content {
+    color: var(--primary-font-color);
 }
 
 .expanded {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import "../css/expandable.css"
 
-interface ExpandableProps {
+interface IExpandableProps {
     header: JSX.Element;
     content: JSX.Element | JSX.Element[];
 }
 
-const Expandable: React.FC<ExpandableProps> = ({ header, content }) => {
+const Expandable: React.FC<IExpandableProps> = ({ header, content }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleExpand = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -15,10 +15,14 @@ const Expandable: React.FC<ExpandableProps> = ({ header, content }) => {
     };
 
     return (
-        <section className={`expandable ${isExpanded ? 'expanded' : ''}`} onClick={toggleExpand} >
-            {header}
-            {isExpanded && content}
-        </section>
+        <React.Fragment>
+            <section className={`expandable-header ${isExpanded ? 'expanded' : ''}`} onClick={toggleExpand}>
+                {header}
+            </section>
+            <section className='expandable-content'>
+                {isExpanded && content}
+            </section>
+        </React.Fragment >
     );
 };
 

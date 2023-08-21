@@ -1,73 +1,70 @@
 import React from 'react';
 import '../css/overallStats.css';
-import { JSONError, MissionDataInterface } from '../interfaces/MissionData';
+import { IJSONError, IMissionDataInterface, IMissionInfoDeepDive, IMissionInfoDeepDiveStage } from '../interfaces/MissionData';
 import Expandable from './Expandable';
 import { formatTimeSpan, toTitleCase } from '../utils/formatting';
 import { SortedStringNumberMap } from '../utils/SortedMap';
+import ExpandableTable from './ExpandableTable';
 
-interface OverallStatsProps {
-    contents: (MissionDataInterface | JSONError)[]
+interface IOverallStatsProps {
+    contents: (IMissionDataInterface | IJSONError)[]
 }
 
 function getExpandableBreakdownTableForMap(map: SortedStringNumberMap, total: number, prefixHeader: string = "", prefixContent: string = ""): JSX.Element {
     return (
-        <table className='sum-breakdown-table'>
-            <Expandable
-                header={
-                    <tr className='clickable'>
-                        <td>{prefixHeader} {map.getIndex(0)![0]}</td>
-                        <td>{map.getIndex(0)![1]}</td>
-                        <td className='percentage'>({(map.getIndex(0)![1] / total * 100).toFixed(2)}%)</td>
-                    </tr>
-                }
+        <ExpandableTable
+            header={
+                <tr className='clickable'>
+                    <td>{prefixHeader} {map.getIndex(0)![0]}</td>
+                    <td>{map.getIndex(0)![1]}</td>
+                    <td className='percentage'>({(map.getIndex(0)![1] / total * 100).toFixed(2)}%)</td>
+                </tr>
+            }
 
-                content={
-                    map.getFromIndex(1).map(([key, value]: [string, number]) => {
-                        return (
-                            <tr>
-                                <td>{prefixContent} {key}</td>
-                                <td>{value}</td>
-                                <td className='percentage'>({(value / total * 100).toFixed(2)}%)</td>
-                            </tr>
-                        );
-                    })
-                }
-            />
-        </table>
+            content={
+                map.getFromIndex(1).map(([key, value]: [string, number]) => {
+                    return (
+                        <tr key={key}>
+                            <td>{prefixContent} {key}</td>
+                            <td>{value}</td>
+                            <td className='percentage'>({(value / total * 100).toFixed(2)}%)</td>
+                        </tr>
+                    );
+                })
+            }
+        />
     )
 }
 
 function getExpandableBreakdownTableForMapWithTotal(map: SortedStringNumberMap, total: number, totalMissions: number, prefixContent: string = ""): JSX.Element {
     return (
-        <table className='sum-breakdown-table'>
-            <Expandable
-                header={
-                    <tr className='sum-breakdown-table-total clickable'>
-                        <td>Total</td>
-                        <td>{Math.trunc(total)}</td>
-                        <td></td>
-                        <td>{(total / totalMissions).toFixed(2)} per mission</td>
-                    </tr>
-                }
+        <ExpandableTable
+            header={
+                <tr className='sum-breakdown-table-total clickable'>
+                    <td>Total</td>
+                    <td>{Math.trunc(total)}</td>
+                    <td></td>
+                    <td>{(total / totalMissions).toFixed(2)} per mission</td>
+                </tr>
+            }
 
-                content={
-                    map.getAll().map(([key, value]: [string, number]) => {
-                        return (
-                            <tr>
-                                <td>{prefixContent} {key}</td>
-                                <td>{Math.trunc(value)}</td>
-                                <td className='percentage'>({(value / total * 100).toFixed(2)}%)</td>
-                                <td>{(value / totalMissions).toFixed(2)} per mission</td>
-                            </tr>
-                        );
-                    })
-                }
-            />
-        </table>
+            content={
+                map.getAll().map(([key, value]: [string, number]) => {
+                    return (
+                        <tr key={key}>
+                            <td>{prefixContent} {key}</td>
+                            <td>{Math.trunc(value)}</td>
+                            <td className='percentage'>({(value / total * 100).toFixed(2)}%)</td>
+                            <td>{(value / totalMissions).toFixed(2)} per mission</td>
+                        </tr>
+                    );
+                })
+            }
+        />
     )
 }
 
-const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
+const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
     let totalMissions = 0;
     let winRate = 0;
     let totalMissionTime = 0;
@@ -97,19 +94,49 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
     let LongestTimeAlive = 0;
     let totalGamesHost = 0;
     let totalGamesClient = 0;
+    let totalDeepDives = 0;
+    let totalEliteDeepDives = 0;
+    let deepDivesWon = 0;
+    let eliteDeepDivesWon = 0;
 
     contents.map((content) => {
         if (content.type === "MissionData") {
-            totalMissions++;
-            winRate += content.MissionResult.WasSuccess ? 1 : 0;
-            totalMissionTime += content.MissionResult.MissionTime;
+            // Mission Data
+            if (content.MissionInfo.IsDeepdive) {
+                content.MissionInfo.IsElite ? totalEliteDeepDives++ : totalDeepDives++;
+                if (content.MissionResult.WasSuccess) content.MissionInfo.IsElite ? eliteDeepDivesWon++ : deepDivesWon++;
+
+                const deepDiveStages: (keyof IMissionInfoDeepDive)[] = ["0", "1", "2"];
+
+                for (const s of deepDiveStages) {
+                    if (s in content.MissionInfo) {
+                        totalMissions++;
+                        winRate++;
+                        const missionInfo = content.MissionInfo[s] as IMissionInfoDeepDiveStage;
+                        mainObjectives.increment(missionInfo.Primary);
+                        missionInfo.Secondaries.forEach((value) => secondaryObjectives.increment(value));
+                        hazardLevels.increment(missionInfo.Hazard.toString());
+                    }
+                }
+
+                if (!content.MissionResult.WasSuccess) winRate--;
+            } else {
+                totalMissions++;
+                winRate += content.MissionResult.WasSuccess ? 1 : 0;
+                mainObjectives.increment(content.MissionInfo.Primary);
+                content.MissionInfo.Secondaries.forEach((value) => secondaryObjectives.increment(value));
+                hazardLevels.increment(content.MissionInfo.Hazard.toString());
+            }
+
             regions.increment(content.MissionInfo.Biome);
-            mainObjectives.increment(content.MissionInfo.Primary);
-            content.MissionInfo.Secondaries.forEach((value) => secondaryObjectives.increment(value))
-            hazardLevels.increment(content.MissionInfo.Hazard.toString());
+
+            // Mission Result
+            totalMissionTime += content.MissionResult.MissionTime;
             Object.entries(content.MissionResult.Credits).forEach(([key, value]: [string, string | number]) => { credits.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
             Object.entries(content.MissionResult.XP).forEach(([key, value]: [string, string | number]) => { xp.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
             Object.entries(content.MissionResult.EndscreenResources).forEach(([key, value]: [string, string | number]) => { endscreenResources.increment(key, Number(value)); });
+
+            // Player Stats
             heros.increment(toTitleCase(content.PlayerStats.Hero));
             titles.increment(content.PlayerStats.Title ?? "None");
             Object.entries(content.PlayerStats.DamageDealt).forEach(([key, value]: [string, string | number]) => { damageDealt.increment(key, Number(value)); });
@@ -151,27 +178,19 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                 <tbody>
                                     <tr>
                                         <td>Biomes</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(regions, totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(regions, totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>Main Objectives</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(mainObjectives, totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(mainObjectives, totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>Secondary Objectives</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(secondaryObjectives, secondaryObjectives.getTotal())}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(secondaryObjectives, secondaryObjectives.getTotal())}</td>
                                     </tr>
                                     <tr>
                                         <td>Hazard Levels</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(hazardLevels, totalMissions, "Hazard", "Hazard")}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(hazardLevels, totalMissions)}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -182,20 +201,39 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                 <tbody>
                                     <tr>
                                         <td>Credits</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(credits, credits.getTotal(), totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMapWithTotal(credits, credits.getTotal(), totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>XP</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(xp, xp.getTotal(), totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMapWithTotal(xp, xp.getTotal(), totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>End screen resources</td>
+                                        <td>{getExpandableBreakdownTableForMapWithTotal(endscreenResources, endscreenResources.getTotal(), totalMissions)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section>
+                            <h2>Deep Dives</h2>
+                            <table className='mission-info-table'>
+                                <tbody>
+                                    <tr>
+                                        <td>Deep Dive Win Rate</td>
                                         <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(endscreenResources, endscreenResources.getTotal(), totalMissions)}
+                                            {totalDeepDives > 0
+                                                ? `${(deepDivesWon / totalDeepDives * 100).toFixed(2)}% (${deepDivesWon} / ${totalDeepDives})`
+                                                : "N.A."
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Elite Deep Dive Win Rate</td>
+                                        <td>
+                                            {totalEliteDeepDives > 0
+                                                ? `${(eliteDeepDivesWon / totalEliteDeepDives * 100).toFixed(2)}% (${eliteDeepDivesWon} / ${totalEliteDeepDives})}`
+                                                : "N.A."
+                                            }
                                         </td>
                                     </tr>
                                 </tbody>
@@ -211,21 +249,15 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                     </tr>
                                     <tr>
                                         <td>Classes</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(heros, totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(heros, totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>Titles</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMap(titles, totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMap(titles, totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>Damage Dealt</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(damageDealt, damageDealt.getTotal(), totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMapWithTotal(damageDealt, damageDealt.getTotal(), totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>DPS</td>
@@ -237,9 +269,7 @@ const OverallStats: React.FC<OverallStatsProps> = ({ contents }) => {
                                     </tr>
                                     <tr>
                                         <td>Enemies Killed</td>
-                                        <td>
-                                            {getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}
-                                        </td>
+                                        <td>{getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}</td>
                                     </tr>
                                     <tr>
                                         <td>Flares thrown</td>
