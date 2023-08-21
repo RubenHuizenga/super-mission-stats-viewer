@@ -1,7 +1,6 @@
 import React from 'react';
 import '../css/missionDataContent.css';
 import { IMissionInfoDeepDive, IMissionInfoDeepDiveStage } from '../interfaces/MissionData';
-import Expandable from './Expandable';
 import ExpandableTable from './ExpandableTable';
 
 interface IMissionInfoDeepDiveProps {
