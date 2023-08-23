@@ -39,18 +39,15 @@
     overflow: auto;
 }
 
-.search-bar {
+.nav-bar {
     padding: 10px 0;
     display: grid;
     align-items: center;
+    justify-content: right;
 }
 
-.search-bar>* {
+.nav-bar>* {
     margin-right: 15px;
-}
-
-.folder-select {
-    justify-self: right;
 }
 
 .success-border {

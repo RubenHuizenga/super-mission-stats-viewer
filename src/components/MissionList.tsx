@@ -132,8 +132,9 @@ const MissionList = () => {
 
     return (
         <section className="mission-list">
-            <section className='search-bar'>
+            <section className='nav-bar'>
                 <button className='folder-select' onClick={handleSelectFolder}>Select Stats Folder</button>
+                <button onClick={fetchData}>Refresh</button>
             </section>
             <section>
                 {filteredFileContents.length > 0 && (
