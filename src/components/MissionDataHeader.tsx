@@ -19,7 +19,7 @@ const MissionDataHeader: React.FC<IMissionDataHeaderProps> = ({ object }) => {
                     {object.MissionResult.WasSuccess ? " - Success" : " - Failure"}
                     {object.PlayerStats.IsHost ? " - Host" : " - Client"}
                 </h3>
-                {!object.MissionInfo.IsDeepdive && <h3>Main Objective: {object.MissionInfo.Primary}</h3>}
+                {!object.MissionInfo.IsDeepdive && <h3>Mission Type: {object.MissionInfo.MissionType}</h3>}
                 <h5>Started on {object.MissionInfo.StartDateTime}</h5>
             </section>
         </section >

@@ -13,10 +13,16 @@ const MissionInfoNormal: React.FC<IMissionInfoNormalProps> = ({ missionInfo }) =
             <table className='mission-info-table'>
                 <tbody>
                     <tr>
+                        <td>Primary Objective</td>
+                        <td>{missionInfo.Primary}</td>
+                    </tr>
+                    <tr>
                         <td>Secondary Objectives</td>
                         <td>
                             {Object.entries(missionInfo.Secondaries).map(([key, value]) => (
-                                <span key={key}>{value}</span>
+                                <React.Fragment>
+                                    <span key={key}>{value}</span><br />
+                                </React.Fragment>
                             ))}
                         </td>
                     </tr>
@@ -24,6 +30,18 @@ const MissionInfoNormal: React.FC<IMissionInfoNormalProps> = ({ missionInfo }) =
                         <tr>
                             <td>Mutator</td>
                             <td>{missionInfo.Mutator}</td>
+                        </tr>
+                    )}
+                    {missionInfo.Warnings.length > 0 && (
+                        <tr>
+                            <td>Warnings</td>
+                            <td>
+                                {Object.entries(missionInfo.Warnings).map(([key, value]) => (
+                                    <React.Fragment>
+                                        <span key={key}>{value}</span><br />
+                                    </React.Fragment>
+                                ))}
+                            </td>
                         </tr>
                     )}
                     <tr>

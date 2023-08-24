@@ -37,6 +37,10 @@ const MissionInfoDeepDive: React.FC<IMissionInfoDeepDiveProps> = ({ missionInfo 
                                                 content={
                                                     <React.Fragment>
                                                         <tr>
+                                                            <td>Primary Objective</td>
+                                                            <td>{stageInfo.Primary}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td>Secondary Objectives</td>
                                                             <td>
                                                                 {Object.entries(stageInfo.Secondaries).map(([_, value]) => (
@@ -52,6 +56,18 @@ const MissionInfoDeepDive: React.FC<IMissionInfoDeepDiveProps> = ({ missionInfo 
                                                                 </tr>
                                                             )
                                                         }
+                                                        {stageInfo.Warnings.length > 0 && (
+                                                            <tr>
+                                                                <td>Warnings</td>
+                                                                <td>
+                                                                    {Object.entries(stageInfo.Warnings).map(([key, value]) => (
+                                                                        <React.Fragment>
+                                                                            <span key={key}>{value}</span><br />
+                                                                        </React.Fragment>
+                                                                    ))}
+                                                                </td>
+                                                            </tr>
+                                                        )}
                                                         <tr>
                                                             <td>DNA</td>
                                                             <td>{stageInfo.DNA}</td>

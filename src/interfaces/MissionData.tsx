@@ -23,6 +23,7 @@ export interface IMissionInfoNormal {
     Hazard: string;
     StartDateTime: string;
     IsDeepdive: false;
+    MissionType: string;
 }
 
 export interface IMissionInfoDeepDiveStage {
@@ -36,6 +37,7 @@ export interface IMissionInfoDeepDiveStage {
     Warnings: [string]
     Secondaries: [string]
     Hazard: number;
+    MissionType: string;
 }
 
 export interface IMissionInfoDeepDive {
