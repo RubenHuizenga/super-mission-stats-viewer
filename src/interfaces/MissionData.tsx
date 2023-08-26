@@ -74,6 +74,7 @@ export interface IPlayerStats {
     MostSingleHitDamage: number;
     DPS: number;
     Title: string;
+    DamageTaken: number;
 }
 
 export interface IMissionResult {

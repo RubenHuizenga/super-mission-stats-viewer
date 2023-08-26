@@ -3,6 +3,7 @@
 .mission-list {
     flex-grow: 1;
     background-color: var(--primary-color);
+    padding-bottom: 10px;
 }
 
 .header {

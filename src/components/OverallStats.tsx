@@ -99,6 +99,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
     let totalEliteDeepDives = 0;
     let deepDivesWon = 0;
     let eliteDeepDivesWon = 0;
+    let damageTaken = 0;
 
     contents.map((content) => {
         if (content.type === "MissionData") {
@@ -157,6 +158,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
             TimesResupplied += content.PlayerStats.TimesResupplied ?? 0;
             if (content.PlayerStats.LongestTimeAlive > LongestTimeAlive) LongestTimeAlive = content.PlayerStats.LongestTimeAlive;
             content.PlayerStats.IsHost ? totalGamesHost++ : totalGamesClient++;
+            damageTaken += content.PlayerStats.DamageTaken ?? 0;
         }
     })
 
@@ -272,6 +274,10 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
                                     <tr>
                                         <td>Enemies Killed</td>
                                         <td>{getExpandableBreakdownTableForMapWithTotal(enemiesKilled, enemiesKilled.getTotal(), totalMissions)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Damage Taken</td>
+                                        <td>{damageTaken.toFixed(2) ?? "0"} ({(damageTaken / totalMissions).toFixed(2)} per mission)</td>
                                     </tr>
                                     <tr>
                                         <td>Flares thrown</td>

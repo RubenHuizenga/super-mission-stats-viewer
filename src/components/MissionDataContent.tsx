@@ -88,11 +88,11 @@ const MissionDataContent: React.FC<IMissionDataContentProps> = ({ object }) => {
                         </tr>
                         <tr>
                             <td>DPS</td>
-                            <td>{object.PlayerStats.DPS.toFixed(2) ?? "0"}</td>
+                            <td>{object.PlayerStats.DPS?.toFixed(2) ?? "0"}</td>
                         </tr>
                         <tr>
                             <td>Most single hit damage</td>
-                            <td>{object.PlayerStats.MostSingleHitDamage.toFixed(2) ?? "0"}</td>
+                            <td>{object.PlayerStats.MostSingleHitDamage?.toFixed(2) ?? "0"}</td>
                         </tr>
                         <tr>
                             <td>Enemies killed</td>
@@ -103,6 +103,10 @@ const MissionDataContent: React.FC<IMissionDataContentProps> = ({ object }) => {
                                     : <SumBreakDownTable totalSum={totalEnemiesKilled} array={Object.entries(object.PlayerStats.EnemiesKilled)} includePercentage={true} />
                             }
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Damage Taken</td>
+                            <td>{object.PlayerStats.DamageTaken?.toFixed(2) ?? "0"}</td>
                         </tr>
                         <tr>
                             <td>Flares thrown</td>
