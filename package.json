@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.4.0",
+    "@types/chart.js": "^2.9.37",
+    "chart.js": "^4.4.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "vite-plugin-svgr": "^3.2.0"
   },

@@ -1,7 +1,3 @@
-export interface IUnknownObject {
-    [key: string]: number | string;
-}
-
 export interface IJSONError {
     type: "JSONError";
     error: string;
@@ -62,8 +58,8 @@ export interface IPlayerStats {
     TotalDeaths: number;
     TotalRevives: number;
     TotalTimeDown: number;
-    DamageDealt: IUnknownObject
-    EnemiesKilled: IUnknownObject | number;
+    DamageDealt: { [key: string]: number }
+    EnemiesKilled: { [key: string]: number } | number;
     FlaresThrown: number;
     Jumps: number;
     Pings: number;
@@ -79,10 +75,10 @@ export interface IPlayerStats {
 
 export interface IMissionResult {
     MissionTime: number;
-    Credits: IUnknownObject;
+    Credits: { [key: string]: number };
     WasSuccess: boolean
-    XP: IUnknownObject;
-    EndscreenResources: IUnknownObject;
+    XP: { [key: string]: number };
+    EndscreenResources: { [key: string]: number };
 }
 
 export interface IMissionDataInterface {

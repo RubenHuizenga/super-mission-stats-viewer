@@ -96,7 +96,11 @@ const MissionList = () => {
     useEffect(() => {
         if (fileNames.length === 0) return;
 
-        const fetchPromises = fileNames.map((fileName) => fetchJsonContent(fileName));
+        const fetchPromises = fileNames.sort((a, b) => {
+            if (a < b) return 1;
+            else if (a > b) return -1;
+            else return 0;
+        }).map((fileName) => fetchJsonContent(fileName));
 
         Promise.all(fetchPromises)
             .then((results) => setFileContents(results))
@@ -104,14 +108,7 @@ const MissionList = () => {
     }, [fileNames]);
 
     useEffect(() => {
-        // Sort on the start time
-        setFilteredFileContents(fileContents.sort((a, b) => {
-            if (a.type === "MissionData" && b.type === "MissionData") {
-                return new Date(b.MissionInfo.StartDateTime).getTime() - new Date(a.MissionInfo.StartDateTime).getTime();
-            } else {
-                return 0;
-            }
-        }).filter((content) => {
+        setFilteredFileContents(fileContents.filter((content) => {
             return content.type === "MissionData"
         }));
     }, [fileContents]);

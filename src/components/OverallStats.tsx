@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/overallStats.css';
 import { IJSONError, IMissionDataInterface, IMissionInfoDeepDive, IMissionInfoDeepDiveStage } from '../interfaces/MissionData';
 import Expandable from './Expandable';
-import { formatTimeSpan, toTitleCase } from '../utils/formatting';
+import { formatTimeSpan, toTitleCase } from '../utils/Utils';
 import { SortedStringNumberMap } from '../utils/SortedMap';
 import ExpandableTable from './ExpandableTable';
 
@@ -235,7 +235,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
                                         <td>Elite Deep Dive Win Rate</td>
                                         <td>
                                             {totalEliteDeepDives > 0
-                                                ? `${(eliteDeepDivesWon / totalEliteDeepDives * 100).toFixed(2)}% (${eliteDeepDivesWon} / ${totalEliteDeepDives})}`
+                                                ? `${(eliteDeepDivesWon / totalEliteDeepDives * 100).toFixed(2)}% (${eliteDeepDivesWon} / ${totalEliteDeepDives})`
                                                 : "N.A."
                                             }
                                         </td>

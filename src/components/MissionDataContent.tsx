@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/missionDataContent.css';
 import { IMissionDataInterface } from '../interfaces/MissionData';
-import { formatTimeSpan, toTitleCase } from '../utils/formatting';
+import { DivideCreaturesInCategories, formatTimeSpan, toTitleCase } from '../utils/Utils';
 import MissionInfoNormal from './MissionInfoNormal';
 import MissionInfoDeepDive from './MissionInfoDeepDive';
 import SumBreakDownTable from './SumBreakDownTable';
@@ -47,6 +47,7 @@ const MissionDataContent: React.FC<IMissionDataContentProps> = ({ object }) => {
                     ? <MissionInfoDeepDive missionInfo={object.MissionInfo} />
                     : <MissionInfoNormal missionInfo={object.MissionInfo} />
             }
+
             <section className='mission-result'>
                 <h2>Mission Result</h2>
                 <table>
