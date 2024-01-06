@@ -40,6 +40,13 @@ const MissionDataContent: React.FC<IMissionDataContentProps> = ({ object }) => {
         });
     }
 
+    let totalDamageTaken = 0;
+    if (object.PlayerStats.DamageSources !== undefined) {
+        Object.entries(object.PlayerStats.DamageSources).map(([_, value]: [string, string | number]) => {
+            if (typeof value === 'number') totalDamageTaken += value;
+        });
+    }
+
     return (
         <section className='content'>
             {
@@ -107,7 +114,10 @@ const MissionDataContent: React.FC<IMissionDataContentProps> = ({ object }) => {
                         </tr>
                         <tr>
                             <td>Damage Taken</td>
-                            <td>{object.PlayerStats.DamageTaken?.toFixed(2) ?? "0"}</td>
+                            <td>{
+                                object.PlayerStats.DamageTaken?.toFixed(2) ??
+                                <SumBreakDownTable totalSum={Math.trunc(totalDamageTaken)} array={Object.entries(object.PlayerStats.DamageSources)} includePercentage={true} />
+                            }</td>
                         </tr>
                         <tr>
                             <td>Flares thrown</td>

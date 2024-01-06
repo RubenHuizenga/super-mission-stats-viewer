@@ -71,6 +71,7 @@ export interface IPlayerStats {
     DPS: number;
     Title: string;
     DamageTaken: number;
+    DamageSources: { [key: string]: number };
 }
 
 export interface IMissionResult {
