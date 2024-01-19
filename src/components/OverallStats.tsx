@@ -136,7 +136,7 @@ const OverallStats: React.FC<IOverallStatsProps> = ({ contents }) => {
             // Mission Result
             totalMissionTime += content.MissionResult.MissionTime;
             Object.entries(content.MissionResult.Credits).forEach(([key, value]: [string, string | number]) => { credits.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
-            Object.entries(content.MissionResult.XP).forEach(([key, value]: [string, string | number]) => { xp.increment(key.replace(/^.*[Xx]/g, ""), Number(value)); });
+            Object.entries(content.MissionResult.XP).forEach(([key, value]: [string, string | number]) => { xp.increment(key.replace(/^.* [Xx] /g, ""), Number(value)); });
             Object.entries(content.MissionResult.EndscreenResources).forEach(([key, value]: [string, string | number]) => { endscreenResources.increment(key, Number(value)); });
 
             // Player Stats
