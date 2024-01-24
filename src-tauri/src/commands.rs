@@ -1,11 +1,19 @@
-use std::fs;
+use std::{fs::{self, File}, io::BufReader};
 
 #[tauri::command]
 #[allow(non_snake_case)]
 pub fn read_json_file(filePath: String) -> Result<String, String> {
-    match std::fs::read_to_string(filePath) {
+    match std::fs::read_to_string(filePath.clone()) {
         Ok(content) => Ok(content),
-        Err(err) => Err(format!("Error reading JSON file: {}", err)),
+        Err(_err) => {
+            let f = File::open(filePath).unwrap();
+            let r = BufReader::new(f);
+            let s = utf16_reader::read_to_string(r);
+        
+            return Ok(s);
+
+            //Err(format!("Error reading JSON file: {}", err))},
+        }
     }
 }
 

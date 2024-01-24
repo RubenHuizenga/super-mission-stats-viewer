@@ -2491,6 +2491,7 @@ dependencies = [
  "serde_json",
  "tauri",
  "tauri-build",
+ "utf16_reader",
  "walkdir",
 ]
 
@@ -3081,6 +3082,12 @@ name = "utf-8"
 version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09cc8ee72d2a9becf2f2febe0205bbed8fc6615b7cb429ad062dc7b7ddd036a9"
+
+[[package]]
+name = "utf16_reader"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64fa1b25084cb80e5e6cd0aa8281ff55dd1f3b969737797e97a42e6e3f7340ee"
 
 [[package]]
 name = "uuid"

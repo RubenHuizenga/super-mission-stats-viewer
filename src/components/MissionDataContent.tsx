@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/missionDataContent.css';
 import { IMissionDataInterface } from '../interfaces/MissionData';
-import { DivideCreaturesInCategories, formatTimeSpan, toTitleCase } from '../utils/Utils';
+import { formatTimeSpan, toTitleCase } from '../utils/Utils';
 import MissionInfoNormal from './MissionInfoNormal';
 import MissionInfoDeepDive from './MissionInfoDeepDive';
 import SumBreakDownTable from './SumBreakDownTable';
